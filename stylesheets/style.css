@@ -2,7 +2,6 @@
 @import url("./components/banner.css");
 @import url("./components/button.css");
 @import url("./components/form.css");
-@import url("./components/card.css");
 :root {
   --background: #F8F5F2;
   --button: #078080;

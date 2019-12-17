@@ -12,8 +12,8 @@
       -ms-flex-align: center;
           align-items: center;
   font-size: 1.5rem;
-  height: 150px;
-  width: 150px;
+  height: 130px;
+  width: 130px;
   position: relative;
 }
 
@@ -51,8 +51,6 @@ input[type=checkbox]:checked + label::before {
 
 .form-control {
   margin: 3px;
-  width: 150px;
-  height: 150px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -81,5 +79,87 @@ input[type=checkbox]:checked + label::before {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+}
+
+.group-form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.form-dropdown {
+  width: 100%;
+}
+
+.form-dropdown .select-dropdown {
+  width: 100%;
+  height: 50px;
+  border: none;
+  font-size: 1.1rem;
+  border-bottom: 2px solid black;
+  font-weight: 400;
+  font-family: 'Roboto', sans-serif;
+  outline: none;
+  background: var(--background);
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+
+.form-dropdown option {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  margin: 2px 0px;
+  border: None;
+}
+
+.form-input-number {
+  height: 50px;
+  width: 100%;
+  border: none;
+  background: var(--background);
+  color: var(--headline);
+  font-weight: 800;
+  outline: None;
+  border-bottom: 2px solid black;
+  text-align: center;
+  font-size: 1.5rem;
+  font-family: 'Roboto', sans-serif;
+}
+
+.form-input-number::-webkit-input-placeholder {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.5rem;
+  text-align: center;
+  color: var(--headline);
+}
+
+.form-input-number:-ms-input-placeholder {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.5rem;
+  text-align: center;
+  color: var(--headline);
+}
+
+.form-input-number::-ms-input-placeholder {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.5rem;
+  text-align: center;
+  color: var(--headline);
+}
+
+.form-input-number::placeholder {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.5rem;
+  text-align: center;
+  color: var(--headline);
 }
 /*# sourceMappingURL=form.css.map */
