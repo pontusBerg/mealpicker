@@ -1,16 +1,65 @@
 
 
 .input-name {
-  font-family: 'Poppins', sans-serif;
-  margin-right:10px;
+  font-family: 'Roboto', sans-serif;
+  color:var(--paragraphWhite);
+  font-weight:800;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size:1.5rem;
+  height:150px;
+  width:150px;
+  position: relative;
 }
 
+
+input[type=checkbox]:checked + label::before {
+  color:red;
+  content: '';
+  background:rgba(7, 128, 128, 0.4);
+  height:100%;
+  width:100%;
+  position: absolute;
+  top:0px;
+  left:0px;
+  background-image: url(images/check1.svg);
+  background-size: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 
 .group-input-field {
   padding:20px 0px;
 }
 
 .checkbox {
-  border-radius: 50%;
-  background-color: red;
+  display: none;
+}
+
+.group-form {
+
+}
+
+.form-control {
+  margin:3px;
+  width:150px;
+  height:150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+} 
+
+
+
+.group-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
