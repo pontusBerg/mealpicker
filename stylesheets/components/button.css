@@ -1,0 +1,10 @@
+.btn-primary {
+  background: var(--button);
+  border: none;
+  color: var(--buttontext);
+  padding: 20px 80px;
+  font-size: 1.2rem;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 800;
+}
+/*# sourceMappingURL=button.css.map */

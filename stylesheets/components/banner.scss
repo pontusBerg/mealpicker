@@ -1,0 +1,18 @@
+.banner-main {
+  height:100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .title {
+  }
+  .paragraph {
+    margin-bottom:20px;
+    font-weight:800;
+  }
+}
+
+.wrap-content {
+  min-height:100vh;
+  
+}

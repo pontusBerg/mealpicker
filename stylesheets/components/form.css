@@ -1,0 +1,14 @@
+.input-name {
+  font-family: 'Poppins', sans-serif;
+  margin-right: 10px;
+}
+
+.group-input-field {
+  padding: 20px 0px;
+}
+
+.checkbox {
+  border-radius: 50%;
+  background-color: red;
+}
+/*# sourceMappingURL=form.css.map */
