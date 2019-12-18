@@ -1,12 +1,41 @@
-
 const ItemCtrl = (function () {
 
 
   const state = {
     selectedCuisines: [],
+    selectedDiet: '',
+    selectedTime: 0,
+    selectedIngredient: '',
   }
 
   return {
+
+
+    apiCallRecipes: () => {
+      const apiKey = '';
+      let cuisineToString;
+
+      if (state.selectedCuisines.length > 1) {
+        cuisineToString = state.selectedCuisines.toString();
+
+
+      } else {
+        cuisineToString = state.selectedCuisines.toString();
+        console.log(cuisineToString)
+      }
+
+      fetch(`https://api.spoonacular.com/recipes/716429/information?includeNutrition=false?apiKey=`)
+        .then(function (data) {
+          // Here you get the data to modify as you please
+          console.log(data);
+        })
+        .catch(function (error) {
+          // If there is any error you will catch them here
+        });
+
+
+    },
+
     getState: () => {
       return state
     }
@@ -18,11 +47,36 @@ const ItemCtrl = (function () {
 const UICtrl = (function () {
 
   const UISelectors = {
+    // Buttons
     btnBanner: '#btn-banner',
     btnFormOne: '#btn-form-1',
+    btnFormTwo: '#btn-form-2',
+    btnPrimary: '.btn-primary',
 
+    // Popup 
+    closePopup: '.fa-times',
+    errorPopup: '.error-popup',
 
+    // Form submissions
+    selectDiet: '#select-diet',
+    formInputNumber: '.form-input-number',
+
+    // General selectors
     wrapContent: '.wrap-content',
+    container: '.container',
+
+    // animations
+    bannerTitle: '.banner-title',
+    bannerParagraph: '.banner-paragraph',
+    btnBanner: '#btn-banner',
+    formControl: '.form-control',
+    bannerMain: '.banner-main',
+    titleCuisine: '.title-cuisine',
+    titleIngredient: '#title-ingredient',
+    queryInput: '.query-input',
+    inputName: '.input-name',
+    titleDiet: '.title-diet',
+    selectDiet: '#select-diet',
   }
 
 
@@ -32,21 +86,101 @@ const UICtrl = (function () {
   return {
 
 
-  renderDietChoice: () => {
-    
-  }
 
-  renderCuisineChoice: () => {
-    let html = `
+    renderDietChoice: () => {
+      let html = `<div class="wrap-content">
+    <h2 style="margin-bottom:40px" class="title title-diet">Any diets or
+      intolerances?</h2>
+      <div class="form-dropdown">
+      <select id="select-diet" name="diet" class="select-dropdown">
+        <div style="box-shadow: 0 0 15px rgba(0,0,0,0.2); height:100%; width:100%; overflow:hidden;">
+        <option value="none">None</option>
+        <option value="vegan">Vegan</option>
+        <option value="keto">Keto</option>
+        <option value="vegetarian">Vegetarian</option>
+        <option value="gluten-free">Gluten Free</option>
+        <option value="paleo">Paleo</option>
+        <option value="lacto-vegetarian">Lacto Vegetarian</option>
+      </div>
+      </select>
+      <button id="btn-form-2" class="btn-primary">let's go!</button>
+    </div>
+  </div>`
+
+      document.querySelector(UISelectors.container).insertAdjacentHTML('afterbegin', html);
+
+      UICtrl.generalFadeIn(UISelectors.titleDiet, UISelectors.selectDiet, UISelectors.btnPrimary);
+      document.querySelector(UISelectors.btnPrimary).addEventListener('click', () => {
+        // Get the selected value from the dropdown menu.
+        let e = document.querySelector(UISelectors.selectDiet);
+        let selectedDietValue = e.options[e.selectedIndex].value;
+        state.selectedDiet = selectedDietValue
+        ItemCtrl.apiCallRecipes();
+        document.querySelector(UISelectors.wrapContent).remove();
+      })
+    },
+
+    renderIngredientChoice: () => {
+      let html = `    <div class="wrap-content">
+    <h2 id="title-ingredient" class="title">I wanna find recipes that includes</h2>
+    <input class="query-input" type="text" placeholder="Ex. Pork">
+    <button id="btn-banner" class="btn-primary">Next</button>
+  </div>`
+
+      document.querySelector(UISelectors.container).insertAdjacentHTML('afterbegin', html);
+      UICtrl.fadeinIngredientChoice();
+
+
+      document.querySelector(UISelectors.queryInput).addEventListener('keyup', e => {
+        state.selectedIngredient = e.target.value
+      });
+
+
+      document.querySelector(UISelectors.btnPrimary).addEventListener('click', () => {
+
+
+        if (state.selectedIngredient != '') {
+          UICtrl.generalFadeOut(UISelectors.titleIngredient, UISelectors.queryInput, UISelectors.btnPrimary);
+
+          setTimeout(function () {
+            document.querySelector(UISelectors.wrapContent).remove();
+          }, 1650);
+          setTimeout(function () {
+            UICtrl.renderCuisineChoice();
+          }, 1700);
+        } else {
+          UICtrl.renderErrorComponent();
+
+        }
+      })
+    },
+
+    renderErrorComponent: () => {
+      let html = `
+      <div class="error-popup">
+      <i class="fas fa-times"></i>
+      <img class="popup-background" src="./stylesheets/components/images/background-icon5.svg" alt="">
+      <h2 class="error-popup-title">Oops!</h2>
+      <p class="error-popup-paragraph">Please make sure you filled in the form correctly.</p>
+    </div>
+      `
+
+      document.querySelector(UISelectors.container).insertAdjacentHTML('afterbegin', html);
+
+      document.querySelector(UISelectors.closePopup).addEventListener('click', () => {
+        document.querySelector(UISelectors.errorPopup).remove();
+      })
+    },
+
+    renderCuisineChoice: () => {
+      let html = `
     <div class="wrap-content">
-    <h2 class="title">What type of
-      food do you
-      want to cook?</h2>
-
+    <h2 style="margin-bottom:40px" class="title title-cuisine">What type of
+    food do you
+    want to cook?</h2>
     <div class="group-form">
-
       <div class="form-control">
-        <input value="american" id="check1" class="checkbox" type="checkbox" >
+        <input value="American" id="check1" class="checkbox" type="checkbox" >
         <label for="check1"
          style="background:linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('./stylesheets/components/images/american.jpg'); background-position: center; background-size:cover;"
           class="input-name">American
@@ -131,7 +265,7 @@ const UICtrl = (function () {
       <div class="form-control">
         <input value="nordic" id="check10" class="checkbox" type="checkbox" >
         <label for="check10"
-          style="background:linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('./stylesheets/components/images/italian.jpg'); background-position: center; background-size:cover;"
+          style="background:linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('./stylesheets/components/images/nordic.jpg'); background-position: center; background-size:cover;"
           class="input-name">Nordic
         </label>
       </div>
@@ -159,27 +293,163 @@ const UICtrl = (function () {
       <button id="btn-form-1" class="btn-primary">next</button>
     </div>
   </div>
-
     `
 
-    document.querySelector('body').insertAdjacentHTML('afterbegin', html);
+      document.querySelector(UISelectors.container).insertAdjacentHTML('afterbegin', html);
 
-    document.querySelector(UISelectors.btnFormOne).addEventListener('click', () => {
-      var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
+      UICtrl.animateCusineSection();
 
-      // Store all selected cuisines in the state array.
-      console.log(checkboxes)
-      for (let i = 0; i < checkboxes.length; i++) {
-        state.selectedCuisines.push(checkboxes[i].value)
-      }
-      
-      UICtrl.renderDietChoice();
-     })
-  },
+      document.querySelector(UISelectors.btnPrimary).addEventListener('click', () => {
+        var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
 
-   getSelectors: () => {
-     return UISelectors;
-   }
+        // Store all selected cuisines in the state array.
+        console.log(checkboxes)
+        for (let i = 0; i < checkboxes.length; i++) {
+          state.selectedCuisines.push(checkboxes[i].value)
+        }
+
+        UICtrl.fadeOutCuisine();
+        setTimeout(function () {
+          document.querySelector(UISelectors.wrapContent).remove();
+        }, 3000);
+
+        setTimeout(function () {
+          UICtrl.renderDietChoice();
+        }, 3000);
+      })
+    },
+
+    fadeOutCuisine: () => {
+      let tl = new TimelineMax();
+
+      tl.to(UISelectors.titleCuisine, 0.5, {
+          opacity: 0,
+          y: -20,
+        })
+        .staggerTo(UISelectors.inputName, 0.5, {
+          opacity: 0,
+          y: -10,
+          stagger: 0.1,
+        })
+        .to(UISelectors.btnPrimary, 0.5, {
+          opacity: 0,
+
+        })
+    },
+
+    fadeinIngredientChoice: () => {
+      let tl = new TimelineMax();
+
+      tl.to(UISelectors.titleIngredient, 0.5, {
+          opacity: 1,
+          y: 0,
+        })
+        .to(UISelectors.queryInput, 0.5, {
+          opacity: 1,
+          y: 0,
+        })
+        .to(UISelectors.btnPrimary, 0.5, {
+          opacity: 1,
+
+        })
+    },
+
+    generalFadeIn: (title, input, button) => {
+      let tl = new TimelineMax();
+
+      tl.to(title, 0.5, {
+          opacity: 1,
+          y: 0,
+        })
+        .to(input, 0.5, {
+          opacity: 1,
+          y: 0,
+        })
+        .to(button, 0.5, {
+          opacity: 1,
+
+        })
+    },
+
+
+    generalFadeOut: (title, input, button) => {
+      let tl = new TimelineMax();
+      tl.to(title, 0.5, {
+          opacity: 0,
+          y: -20,
+        })
+        .to(input, 0.5, {
+          opacity: 0,
+          y: -20,
+        })
+        .to(button, 0.5, {
+          opacity: 0,
+        })
+    },
+
+
+    animateCusineSection: () => {
+      let tl = new TimelineMax();
+      tl.to(UISelectors.titleCuisine, 0.3, {
+          opacity: 1,
+          y: 0,
+
+        })
+        .staggerTo(UISelectors.formControl, 0.5, {
+          stagger: 0.1,
+          opacity: 1,
+        })
+        .to(UISelectors.btnPrimary, 0.3, {
+          opacity: 1,
+        })
+    },
+
+    bannerFadeOut: () => {
+      let tl = new TimelineMax();
+      console.log("trigger");
+      tl.to(UISelectors.bannerTitle, 0.3, {
+          y: '0px',
+          opacity: 0,
+
+        })
+        .to(UISelectors.bannerParagraph, 0.3, {
+          y: '0px',
+          opacity: 0,
+
+        })
+        .to(UISelectors.btnBanner, 0.3, {
+          opacity: 0,
+
+        })
+        .to(UISelectors.bannerMain, 0.3, {
+          opacity: 0,
+        })
+    },
+
+    animateBanner: () => {
+      let tl1 = new TimelineMax();
+      tl1.to(UISelectors.bannerMain, 0.5, {
+          opacity: 1,
+        })
+        .to(UISelectors.bannerTitle, 0.5, {
+          opacity: 1,
+          y: 0,
+
+        })
+        .to(UISelectors.bannerParagraph, 0.5, {
+          opacity: 1,
+          y: 0,
+        })
+        .to(UISelectors.btnBanner, 0.5, {
+          opacity: 1,
+
+        })
+        .to(UISelectors.bannerMain, 0.3, {})
+    },
+
+    getSelectors: () => {
+      return UISelectors;
+    }
   }
 })();
 
@@ -188,16 +458,26 @@ const App = (function (ItemCtrl, UICtrl) {
 
   const UISelectors = UICtrl.getSelectors();
 
+  const initAnimation = () => {
+    UICtrl.animateBanner();
+  }
 
   const loadEventListeners = () => {
-    document.querySelector(UISelectors.btnBanner).addEventListener('click', () => {
-      document.querySelector(UISelectors.wrapContent).remove();
-      UICtrl.renderCuisineChoice();
+    document.querySelector(UISelectors.btnPrimary).addEventListener('click', () => {
+      console.log("trigger");
+      setTimeout(() => {
+        document.querySelector(UISelectors.wrapContent).remove();
+      }, 1700);
+      setTimeout(() => {
+        UICtrl.renderIngredientChoice();
+      }, 1700);
+      UICtrl.bannerFadeOut();
     });
   }
 
   return {
     init: () => {
+      UICtrl.animateBanner();
       loadEventListeners();
     }
   }

@@ -15,6 +15,25 @@
   height: 130px;
   width: 130px;
   position: relative;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+}
+
+.query-input {
+  border: none;
+  border-bottom: 1px solid black;
+  background: var(--background);
+  outline: none;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.2rem;
+  max-width: 400px;
+  width: 100%;
+  margin-bottom: 20px;
+  margin-top: 40px;
+  padding: 0 10px;
+  font-weight: 800;
+  color: var(--headline);
 }
 
 input[type=checkbox]:checked + label::before {
@@ -49,24 +68,6 @@ input[type=checkbox]:checked + label::before {
   display: none;
 }
 
-.form-control {
-  margin: 3px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  text-align: center;
-}
-
 .group-form {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -79,6 +80,11 @@ input[type=checkbox]:checked + label::before {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  width: 100%;
+}
+
+.group-form .btn-primary {
+  margin-top: 20px;
 }
 
 .group-form {
@@ -112,6 +118,8 @@ input[type=checkbox]:checked + label::before {
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
+  max-width: 400px;
+  margin-bottom: 20px;
 }
 
 .form-dropdown option {
@@ -133,6 +141,8 @@ input[type=checkbox]:checked + label::before {
   text-align: center;
   font-size: 1.5rem;
   font-family: 'Roboto', sans-serif;
+  max-width: 400px;
+  margin-bottom: 20px;
 }
 
 .form-input-number::-webkit-input-placeholder {

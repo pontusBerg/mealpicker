@@ -2,9 +2,22 @@
   background: var(--button);
   border: none;
   color: var(--buttontext);
-  padding: 20px 80px;
+  padding: 20px 0px;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   font-size: 1.2rem;
   font-family: 'Roboto', sans-serif;
   font-weight: 800;
+  max-width: 400px;
+  border: 2px solid #078080;
+  border-radius: 50px;
 }
 /*# sourceMappingURL=button.css.map */

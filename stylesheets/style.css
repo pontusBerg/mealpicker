@@ -2,6 +2,9 @@
 @import url("./components/banner.css");
 @import url("./components/button.css");
 @import url("./components/form.css");
+@import url("./components/animation.css");
+@import url("./components/icon.css");
+@import url("./components/popup.css");
 :root {
   --background: #F8F5F2;
   --button: #078080;
@@ -27,6 +30,7 @@ body {
 .container {
   width: 280px;
   margin: 0 auto;
+  position: relative;
 }
 
 .title {
@@ -34,6 +38,7 @@ body {
   font-family: 'Roboto', sans-serif;
   color: var(--headline);
   font-weight: 800;
+  max-width: 600px;
 }
 
 .title-white {
@@ -41,6 +46,7 @@ body {
   font-family: 'Gelasio', serif;
   color: var(--headlineWhite);
   font-weight: 400;
+  max-width: 600px;
 }
 
 .paragraph {
@@ -50,5 +56,109 @@ body {
 
 .paragraph-white {
   color: var(--paragraphWhite);
+}
+
+@media (min-width: 1281px) {
+  .container {
+    width: 1200px;
+    margin: 0 auto;
+  }
+  .title {
+    font-size: 4rem;
+  }
+  .form-control {
+    height: 250px;
+    width: 250px;
+  }
+  .form-control .input-name {
+    width: 250px;
+    height: 250px;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .container {
+    width: 1000px;
+    margin: 0 auto;
+  }
+  .title {
+    font-size: 4rem;
+  }
+  .form-control {
+    height: 250px;
+    width: 250px;
+  }
+  .form-control .input-name {
+    width: 250px;
+    height: 250px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .container {
+    width: 750px;
+    margin: 0 auto;
+  }
+  .title {
+    font-size: 3.5rem;
+    text-align: center;
+  }
+  .form-control {
+    height: 200px;
+    width: 200px;
+  }
+  .form-control .input-name {
+    width: 200px;
+    height: 200px;
+  }
+  .form-dropdown {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: distribute;
+        justify-content: space-around;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+  .container {
+    width: 95%;
+    margin: 0 auto;
+  }
+  .title {
+    font-size: 3.5rem;
+  }
+  .form-control {
+    height: 150px;
+    width: 150px;
+  }
+  .form-control .input-name {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+@media (min-width: 321px) and (max-width: 480px) {
+  .container {
+    width: 310px;
+    margin: 0 auto;
+  }
+  .title {
+    font-size: 3.5rem;
+  }
+}
+
+@media (min-width: 0px) and (max-width: 320px) {
+  .container {
+    width: 280px;
+    margin: 0 auto;
+  }
 }
 /*# sourceMappingURL=style.css.map */

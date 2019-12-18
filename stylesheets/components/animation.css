@@ -1,0 +1,52 @@
+.banner-title {
+  opacity: 0;
+  font-size: 2rem;
+  -webkit-transform: translateY(30px);
+          transform: translateY(30px);
+}
+
+.banner-paragraph {
+  opacity: 0;
+  -webkit-transform: translateY(20px);
+          transform: translateY(20px);
+}
+
+#btn-banner {
+  opacity: 0;
+}
+
+.form-control {
+  opacity: 0;
+}
+
+.title-cuisine {
+  margin-top: 50px;
+  opacity: 0;
+  -webkit-transform: translateY(20px);
+          transform: translateY(20px);
+}
+
+#title-ingredient {
+  opacity: 0;
+  -webkit-transform: translateY(20px);
+          transform: translateY(20px);
+}
+
+.query-input {
+  opacity: 0;
+  -webkit-transform: translateY(20px);
+          transform: translateY(20px);
+}
+
+#select-diet {
+  -webkit-transform: translateY(20px);
+          transform: translateY(20px);
+  opacity: 0;
+}
+
+.title-diet {
+  -webkit-transform: translateY(20px);
+          transform: translateY(20px);
+  opacity: 0;
+}
+/*# sourceMappingURL=animation.css.map */
