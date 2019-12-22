@@ -10,30 +10,59 @@ const ItemCtrl = (function () {
 
   return {
 
+      apiCallRecipeInstruction: () => {
+      axios.get(`https://api.spoonacular.com/recipes/667024/information?includeNutrition=false&apiKey=`)
+        .then(function (response) {
+          // handle success
+          console.log(response)
 
-    apiCallRecipes: () => {
-      const apiKey = '';
-      let cuisineToString;
-
-      if (state.selectedCuisines.length > 1) {
-        cuisineToString = state.selectedCuisines.toString();
-
-
-      } else {
-        cuisineToString = state.selectedCuisines.toString();
-        console.log(cuisineToString)
-      }
-
-      fetch(`https://api.spoonacular.com/recipes/716429/information?includeNutrition=false?apiKey=`)
-        .then(function (data) {
-          // Here you get the data to modify as you please
-          console.log(data);
         })
         .catch(function (error) {
-          // If there is any error you will catch them here
+          // handle error
+          console.log(error);
+        })
+        .finally(function () {
+          // always executed
         });
+    },
 
 
+    apiCallRecipes: () => {
+      let cuisineToString;
+      let queryString;
+
+
+      // Check if more than one cuisine is chosen and convert array to string if true. 
+      state.selectedCuisines.length > 1 ? cuisineToString = state.selectedCuisines.toString() : null;
+
+
+      // Modify the API query string depending on the users input choice. 
+      if (state.selectedDiet === 'none' && state.selectedCuisines.includes('Anything')) {
+        return
+      } else if (state.selectedDiet !== 'none' && state.selectedCuisines[0].value != 'Anything') {
+
+        queryString = `&diet=${state.selectedDiet}&cuisine=${cuisineToString}`
+      } else if (state.selectedDiet !== 'none' && state.selectedCuisines[0].value != 'Anything') {
+        queryString = `&cuisine=${cuisineToString}`
+      } else {
+        queryString = `&diet=${state.selectedDiet}`
+      }
+
+      // Make a request for a user with a given ID
+      axios.get(`https://api.spoonacular.com/recipes/search?query=${state.selectedIngredient}${queryString}&instructionsRequired=true&number=5&apiKey=`)
+        .then(function (response) {
+          // handle success
+          console.log(response)
+          UICtrl.renderRecipeSuggestions(response);
+
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        })
+        .finally(function () {
+          // always executed
+        });
     },
 
     getState: () => {
@@ -52,7 +81,8 @@ const UICtrl = (function () {
     btnFormOne: '#btn-form-1',
     btnFormTwo: '#btn-form-2',
     btnPrimary: '.btn-primary',
-
+    btnYes: '#btn-yes',
+    btnNo: '#btn-no',
     // Popup 
     closePopup: '.fa-times',
     errorPopup: '.error-popup',
@@ -86,6 +116,25 @@ const UICtrl = (function () {
   return {
 
 
+    renderRecipeSuggestions: () => {
+      let html;
+
+      recipeData.data.results.forEach(recipe => {
+        html = `
+        <div class="wrap-content">
+        <h2 class="title">Let's cook some</h2>
+        <h2 class="title recipe">${recipe.title}</h2>
+        <button class="btn-choice" id="btn-yes">Yay</button>
+        <button class="btn-choice" id="btn-no">Nay</button>
+        </div>
+        `
+        document.querySelector(UISelectors.container).insertAdjacentHTML('beforeend', html);
+      })
+
+      document.querySelector(UISelectors.btnYes).addEventListener('click', () => {
+        UICtrl.apiCallRecipeInstruction();
+      });
+    },
 
     renderDietChoice: () => {
       let html = `<div class="wrap-content">
@@ -142,6 +191,8 @@ const UICtrl = (function () {
         if (state.selectedIngredient != '') {
           UICtrl.generalFadeOut(UISelectors.titleIngredient, UISelectors.queryInput, UISelectors.btnPrimary);
 
+          document.querySelector(UISelectors.errorPopup) != null ? document.querySelector(UISelectors.errorPopup).remove() : '';
+
           setTimeout(function () {
             document.querySelector(UISelectors.wrapContent).remove();
           }, 1650);
@@ -165,7 +216,7 @@ const UICtrl = (function () {
     </div>
       `
 
-      document.querySelector(UISelectors.container).insertAdjacentHTML('afterbegin', html);
+      document.querySelector('body').insertAdjacentHTML('afterbegin', html);
 
       document.querySelector(UISelectors.closePopup).addEventListener('click', () => {
         document.querySelector(UISelectors.errorPopup).remove();
@@ -179,6 +230,15 @@ const UICtrl = (function () {
     food do you
     want to cook?</h2>
     <div class="group-form">
+
+        <div class="form-control">
+        <input value="Anything" id="check13" class="checkbox" type="checkbox" >
+        <label for="check13"
+        style="background:linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('./stylesheets/components/images/anything.jpg'); background-position: center; background-size:cover;"
+          class="input-name">Anything
+        </label>
+      </div>
+
       <div class="form-control">
         <input value="American" id="check1" class="checkbox" type="checkbox" >
         <label for="check1"
@@ -290,8 +350,10 @@ const UICtrl = (function () {
         </label>
       </div>
       </label>
-      <button id="btn-form-1" class="btn-primary">next</button>
     </div>
+    <div class="btn-outer">
+    <button id="btn-form-1" class="btn-primary">next</button>
+      </div>
   </div>
     `
 
@@ -484,3 +546,12 @@ const App = (function (ItemCtrl, UICtrl) {
 })(ItemCtrl, UICtrl);
 
 App.init();
+
+
+
+
+/* 667024
+428687
+570186
+757883
+988122 */

@@ -14,6 +14,7 @@
   --secondary: #f45d48;
   --headlineWhite: #fffffe;
   --paragraphWhite: #f8f5f2;
+  --buttonFalse: #f45d48;
 }
 
 * {
@@ -101,7 +102,6 @@ body {
   }
   .title {
     font-size: 3.5rem;
-    text-align: center;
   }
   .form-control {
     height: 200px;
@@ -110,20 +110,6 @@ body {
   .form-control .input-name {
     width: 200px;
     height: 200px;
-  }
-  .form-dropdown {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-pack: distribute;
-        justify-content: space-around;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
   }
 }
 

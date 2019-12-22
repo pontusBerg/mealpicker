@@ -20,4 +20,37 @@
   border: 2px solid #078080;
   border-radius: 50px;
 }
+
+.btn-outer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.btn-choice {
+  height: 100px;
+  width: 100px;
+  background: transparent;
+  border-radius: 50%;
+  border: none;
+  font-family: 'Roboto', sans-serif;
+}
+
+#btn-yes {
+  background-image: url(images/check1.svg);
+  background: var(--button);
+}
+
+#btn-no {
+  background: var(--buttonFalse);
+  background-image: url(images/spanish.check1.svg);
+}
 /*# sourceMappingURL=button.css.map */

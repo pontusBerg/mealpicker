@@ -5,6 +5,7 @@
 @import url('./components/animation.css');
 @import url('./components/icon.css');
 @import url('./components/popup.css');
+
 :root {
   --background: #F8F5F2;
   --button: #078080;
@@ -14,6 +15,7 @@
   --secondary: #f45d48;
   --headlineWhite: #fffffe;
   --paragraphWhite: #f8f5f2;
+  --buttonFalse: #f45d48;
 }
 
 * {
@@ -104,7 +106,6 @@ body {
   }
   .title {
     font-size:3.5rem;
-    text-align: center;
   }
   .form-control {
     height:200px;
@@ -116,10 +117,6 @@ body {
   }
 
     .form-dropdown {
-      display: flex;
-      justify-content: space-around;
-      flex-direction: column;
-      align-items: center;
     }
 }
 

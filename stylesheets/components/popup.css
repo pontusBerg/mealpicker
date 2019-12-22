@@ -20,7 +20,7 @@
           justify-content: center;
   position: absolute;
   bottom: 20px;
-  right: 5px;
+  right: 20px;
 }
 
 .error-popup .error-popup-title {
@@ -46,5 +46,6 @@
   bottom: 5px;
   right: 5px;
   width: 100px;
+  z-index: -1;
 }
 /*# sourceMappingURL=popup.css.map */
