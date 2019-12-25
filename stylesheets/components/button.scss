@@ -24,16 +24,17 @@ margin-top:20px;
 }
 
 .btn-choice {
-  height:100px;
-  width:100px;
+  padding:20px 80px;
   background:transparent;
-  border-radius: 50%;
   border:none;
-  font-family: 'Roboto', sans-serif
+  font-family: 'Roboto', sans-serif;
+  font-size:  1.2rem;
+  font-weight:800;
 }
 
 #btn-yes {
-  background-image: url(images/check1.svg);
+  background-image: url('https://svgshare.com/s/GyL');
+  background-size: cover;
   background: var(--button);
 }
 

@@ -6,16 +6,17 @@ const ItemCtrl = (function () {
     selectedDiet: '',
     selectedTime: 0,
     selectedIngredient: '',
+    initRecipeRender: false,
   }
 
   return {
 
-      apiCallRecipeInstruction: () => {
-      axios.get(`https://api.spoonacular.com/recipes/667024/information?includeNutrition=false&apiKey=`)
+    apiCallRecipeInstruction: (recipeID) => {
+      axios.get(`https://api.spoonacular.com/recipes/${recipeID}/information?includeNutrition=false&apiKey=`)
         .then(function (response) {
           // handle success
           console.log(response)
-
+          UICtrl.renderRecipeInstructions(response);
         })
         .catch(function (error) {
           // handle error
@@ -54,7 +55,6 @@ const ItemCtrl = (function () {
           // handle success
           console.log(response)
           UICtrl.renderRecipeSuggestions(response);
-
         })
         .catch(function (error) {
           // handle error
@@ -94,6 +94,9 @@ const UICtrl = (function () {
     // General selectors
     wrapContent: '.wrap-content',
     container: '.container',
+    recipe: '.recipe',
+    recipeWrap: '.recipe-wrap',
+    recipeChoice: '#recipe-choice',
 
     // animations
     bannerTitle: '.banner-title',
@@ -115,26 +118,64 @@ const UICtrl = (function () {
 
   return {
 
+    renderRecipeInstructions: (selectedRecipe) => {
+      selectedRecipe.forEach(recipe => {
+        recipe.data.extendedIngredients.forEach(recipe => {
+          recipe.name
+          recipe.
+        })
+      })
+    },
 
-    renderRecipeSuggestions: () => {
-      let html;
 
-      recipeData.data.results.forEach(recipe => {
-        html = `
-        <div class="wrap-content">
-        <h2 class="title">Let's cook some</h2>
-        <h2 class="title recipe">${recipe.title}</h2>
-        <button class="btn-choice" id="btn-yes">Yay</button>
-        <button class="btn-choice" id="btn-no">Nay</button>
-        </div>
+    renderRecipeSuggestions: (recipes) => {
+      let htmlSkeleton;
+      let htmlRecipe;
+      let counter = 0;
+      console.log(recipes);
+      htmlSkeleton = `
+      <div class="wrap-content">
+      <div class="recipe-wrap">
+      <h2 style="font-size:1.5rem;" class="title">Let's cook some</h2>
+      <h2 id="recipe-choice" class="title recipe">${recipes.data.results[counter].title}</h2>
+      </div>
+      <div>
+      <button class="btn-choice" id="btn-yes">Yay</button>
+      <button class="btn-choice" id="btn-no">Nay</button>
+      </div>
+      </div>
+      `
+      document.querySelector(UISelectors.container).insertAdjacentHTML('beforeend', htmlSkeleton);
+      state.initRecipeRender = true;
+      // Fake click to trigger initial recipe display.
+      document.querySelector(UISelectors.btnNo).addEventListener('click', () => {
+
+        // Check if it's the first time the recipe suggestions are being displayed. If not, remove previous recipe from view.
+        state.initRecipeRender ? document.querySelector(UISelectors.recipeWrap).remove() : '';
+
+        // Every time user declines recipe, display the next one. 
+        counter === recipes.data.results.length - 1 ? counter = 0 : counter++;
+        console.log(counter);
+        htmlRecipe = `
+        <div class="recipe-wrap">
+        <h2 style="font-size:1.5rem;" class="title">Let's cook some</h2>
+        <h2 id="recipe-choice" class="title recipe">${recipes.data.results[counter].title}</h2>
+      </div>
         `
-        document.querySelector(UISelectors.container).insertAdjacentHTML('beforeend', html);
+        document.querySelector(UISelectors.wrapContent).insertAdjacentHTML('afterbegin', htmlRecipe);
+
       })
 
+
       document.querySelector(UISelectors.btnYes).addEventListener('click', () => {
-        UICtrl.apiCallRecipeInstruction();
+        const selectedRecipe = document.querySelector(UISelectors.recipeChoice).innerText;
+        const filterOutRecipe = recipes.data.results.filter(recipe => recipe.title === selectedRecipe);
+        const filteredRecipeId = filterOutRecipe[0].id;
+        console.log(filteredRecipeId);
+        ItemCtrl.apiCallRecipeInstruction(filteredRecipeId);
       });
     },
+
 
     renderDietChoice: () => {
       let html = `<div class="wrap-content">
