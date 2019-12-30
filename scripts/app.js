@@ -12,7 +12,7 @@ const ItemCtrl = (function () {
   return {
 
     apiCallRecipeInstruction: (recipeID) => {
-      axios.get(`https://api.spoonacular.com/recipes/${recipeID}/information?includeNutrition=false&apiKey=`)
+      axios.get(`https://api.spoonacular.com/recipes/${recipeID}/information?includeNutrition=false&apiKey=e537973c400441d0b824136b8ae591a2`)
         .then(function (response) {
           // handle success
           console.log(response)
@@ -20,7 +20,6 @@ const ItemCtrl = (function () {
         })
         .catch(function (error) {
           // handle error
-          console.log(error);
         })
         .finally(function () {
           // always executed
@@ -38,7 +37,8 @@ const ItemCtrl = (function () {
 
 
       // Modify the API query string depending on the users input choice. 
-      if (state.selectedDiet === 'none' && state.selectedCuisines.includes('Anything')) {
+      if (state.selectedDiet === 'none' && state.selectedCuisines[0].value === 'Anything') {
+        console.log('executed');
         return
       } else if (state.selectedDiet !== 'none' && state.selectedCuisines[0].value != 'Anything') {
 
@@ -48,9 +48,9 @@ const ItemCtrl = (function () {
       } else {
         queryString = `&diet=${state.selectedDiet}`
       }
-
+      console.log('executed')
       // Make a request for a user with a given ID
-      axios.get(`https://api.spoonacular.com/recipes/search?query=${state.selectedIngredient}${queryString}&instructionsRequired=true&number=5&apiKey=`)
+      axios.get(`https://api.spoonacular.com/recipes/search?query=${state.selectedIngredient}${queryString}&instructionsRequired=true&number=5&apiKey=e537973c400441d0b824136b8ae591a2`)
         .then(function (response) {
           // handle success
           console.log(response)
@@ -97,6 +97,11 @@ const UICtrl = (function () {
     recipe: '.recipe',
     recipeWrap: '.recipe-wrap',
     recipeChoice: '#recipe-choice',
+    recipeIngredients: '.recipe-ingredients',
+    ingredientTitle: '.title-ingredient',
+    recipeInstruction: '.recipe-instructions',
+    recipeImg: '.recipe-img',
+
 
     // animations
     bannerTitle: '.banner-title',
@@ -119,20 +124,85 @@ const UICtrl = (function () {
   return {
 
     renderRecipeInstructions: (selectedRecipe) => {
-      selectedRecipe.forEach(recipe => {
-        recipe.data.extendedIngredients.forEach(recipe => {
-          recipe.name
-          recipe.
-        })
-      })
-    },
+      document.querySelector(UISelectors.wrapContent).remove();
+      let ingredientsHtml;
+      let instructionsHtml;
+      let storeInstructions;
 
+
+
+      const divWrap = document.createElement('div');
+      divWrap.className = 'wrap-content';
+      document.querySelector(UISelectors.container).insertAdjacentElement('afterbegin', divWrap);
+
+      const divIngredient = document.createElement('div');
+      const ingredientTitle = document.createElement('h2');
+      
+      ingredientTitle.className = "title-ingredient";
+      ingredientTitle.innerText = 'Ingredients';
+
+      divIngredient.className = 'recipe-ingredients';
+
+      document.querySelector(UISelectors.wrapContent).insertAdjacentElement('afterbegin', divIngredient);
+      document.querySelector(UISelectors.recipeIngredients).insertAdjacentElement('afterbegin', ingredientTitle);
+
+      selectedRecipe.data.extendedIngredients.forEach(recipe => {
+        ingredientsHtml = `
+        <h2 class="ingredient">${recipe.original}</h2>
+        `
+        document.querySelector(UISelectors.recipeIngredients).insertAdjacentHTML('beforeend', ingredientsHtml);
+      });
+      
+
+      const divInstruction = document.createElement('div');
+      divInstruction.className = 'recipe-instructions';
+      document.querySelector(UISelectors.wrapContent).insertAdjacentElement('beforeend', divInstruction);
+
+      selectedRecipe.data.analyzedInstructions.forEach(instruction => {
+       storeInstructions = instruction.steps;
+       console.log(storeInstructions)
+      });
+
+      storeInstructions.forEach(instruction => {
+        console.log(instruction.step)
+        instructionsHtml = `
+        <li class="instruction">${instruction.step}</li>
+        `
+        console.log(instructionsHtml);
+        document.querySelector(UISelectors.recipeInstruction).insertAdjacentHTML('beforeend', instructionsHtml)
+      })
+
+      const instructionsTitle = document.createElement('h2');
+      instructionsTitle.className = 'title-ingredient';
+      instructionsTitle.innerText = 'Instructions';
+      document.querySelector(UISelectors.recipeInstruction).insertAdjacentElement('afterbegin', instructionsTitle);
+
+      const recipeImg = document.createElement('img');
+      recipeImg.className = 'recipe-img';
+      const getRecipeImage = selectedRecipe.data.image;
+      recipeImg.src = getRecipeImage;
+      document.querySelector(UISelectors.wrapContent).insertAdjacentElement('afterbegin', recipeImg);
+
+      const button = document.createElement('a');
+      button.className = 'btn-primary';
+      button.href = '#';
+      button.innerText = 'Find new recipe'
+      document.querySelector(UISelectors.wrapContent).insertAdjacentElement('beforeend', button);
+
+
+      
+      const recipeTitle = document.createElement('h2')
+      const getRecipeTitle = selectedRecipe.data.title;
+      recipeTitle.innerText = getRecipeTitle;
+      recipeTitle.className = 'title-recipe';
+      document.querySelector(UISelectors.recipeImg).insertAdjacentElement('afterbegin', recipeTitle);
+    },
+ 
 
     renderRecipeSuggestions: (recipes) => {
       let htmlSkeleton;
       let htmlRecipe;
       let counter = 0;
-      console.log(recipes);
       htmlSkeleton = `
       <div class="wrap-content">
       <div class="recipe-wrap">
@@ -155,7 +225,7 @@ const UICtrl = (function () {
 
         // Every time user declines recipe, display the next one. 
         counter === recipes.data.results.length - 1 ? counter = 0 : counter++;
-        console.log(counter);
+
         htmlRecipe = `
         <div class="recipe-wrap">
         <h2 style="font-size:1.5rem;" class="title">Let's cook some</h2>
@@ -171,7 +241,6 @@ const UICtrl = (function () {
         const selectedRecipe = document.querySelector(UISelectors.recipeChoice).innerText;
         const filterOutRecipe = recipes.data.results.filter(recipe => recipe.title === selectedRecipe);
         const filteredRecipeId = filterOutRecipe[0].id;
-        console.log(filteredRecipeId);
         ItemCtrl.apiCallRecipeInstruction(filteredRecipeId);
       });
     },
@@ -596,3 +665,16 @@ App.init();
 570186
 757883
 988122 */
+
+/*   axios.get(`https://api.spoonacular.com/recipes/570186/information?includeNutrition=false&apiKey=e537973c400441d0b824136b8ae591a2`)
+    .then(function (response) {
+      // handle success
+      console.log(response)
+      UICtrl.renderRecipeInstructions(response);
+    })
+    .catch(function (error) {
+      // handle error
+    })
+    .finally(function () {
+      // always executed
+    }); */
