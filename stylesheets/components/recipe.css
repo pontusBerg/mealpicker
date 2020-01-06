@@ -48,4 +48,8 @@ ol li {
   color: var(--headline);
   font-size: 1.5rem;
 }
+
+#recipe-choice {
+  margin-bottom: 50px;
+}
 /*# sourceMappingURL=recipe.css.map */

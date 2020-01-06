@@ -12,6 +12,7 @@ const ItemCtrl = (function () {
   return {
 
     apiCallRecipeInstruction: (recipeID) => {
+      // Api key can't be used by abused by anyone else, so i'm keeping it public.
       axios.get(`https://api.spoonacular.com/recipes/${recipeID}/information?includeNutrition=false&apiKey=e537973c400441d0b824136b8ae591a2`)
         .then(function (response) {
           // handle success
@@ -50,6 +51,7 @@ const ItemCtrl = (function () {
       }
       console.log('executed')
       // Make a request for a user with a given ID
+         // Api key can't be used by abused by anyone else, so i'm keeping it public.
       axios.get(`https://api.spoonacular.com/recipes/search?query=${state.selectedIngredient}${queryString}&instructionsRequired=true&number=5&apiKey=e537973c400441d0b824136b8ae591a2`)
         .then(function (response) {
           // handle success
@@ -185,7 +187,7 @@ const UICtrl = (function () {
 
       const button = document.createElement('a');
       button.className = 'btn-primary';
-      button.href = '#';
+      button.href = 'index.html';
       button.innerText = 'Find new recipe'
       document.querySelector(UISelectors.wrapContent).insertAdjacentElement('beforeend', button);
 
@@ -455,7 +457,7 @@ const UICtrl = (function () {
       <div class="form-control">
         <input value="korean" id="check12" class="checkbox" type="checkbox" >
         <label for="check12"
-          style="background:linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('./stylesheets/components/images/Korean.jpg'); background-position: center; background-size:cover;"
+          style="background:linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('./stylesheets/components/images/korean.jpg'); background-position: center; background-size:cover;"
           class="input-name">Korean
         </label>
       </div>
@@ -649,7 +651,7 @@ const App = (function (ItemCtrl, UICtrl) {
 
   return {
     init: () => {
-      UICtrl.animateBanner();
+        UICtrl.animateBanner()
       loadEventListeners();
     }
   }
@@ -657,24 +659,3 @@ const App = (function (ItemCtrl, UICtrl) {
 
 App.init();
 
-
-
-
-/* 667024
-428687
-570186
-757883
-988122 */
-
-/*   axios.get(`https://api.spoonacular.com/recipes/570186/information?includeNutrition=false&apiKey=e537973c400441d0b824136b8ae591a2`)
-    .then(function (response) {
-      // handle success
-      console.log(response)
-      UICtrl.renderRecipeInstructions(response);
-    })
-    .catch(function (error) {
-      // handle error
-    })
-    .finally(function () {
-      // always executed
-    }); */
